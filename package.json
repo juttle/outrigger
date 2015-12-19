@@ -84,5 +84,17 @@
   "engines": {
     "node": ">=4.2.0",
     "npm": ">=2.14.7"
-  }
+  },
+  "files": [
+    "LICENSE",
+    "NOTICE",
+    "README.md",
+    "gulpfile.js",
+    "bin",
+    "dist",
+    "docs",
+    "lib",
+    "log4js.json",
+    "src"
+  ]
 }
