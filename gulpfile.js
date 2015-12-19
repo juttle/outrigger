@@ -21,8 +21,8 @@ gulp.task('jscs-test', function() {
 
 gulp.task('jscs-lib', function() {
     return gulp.src([
-        'bin/demo',
-        'bin/client',
+        'bin/outriggerd',
+        'bin/outrigger-client',
         'lib/*.js'
     ])
     .pipe(jscs({
@@ -43,8 +43,8 @@ gulp.task('jshint-test', function() {
 
 gulp.task('jshint-lib', function() {
     return gulp.src([
-        'bin/demo',
-        'bin/client',
+        'bin/outriggerd',
+        'bin/outrigger-client',
         'lib/**/*.js',
     ])
     .pipe(jshint('./lib/.jshintrc'))
