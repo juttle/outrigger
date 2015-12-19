@@ -83,7 +83,7 @@ When outriggerd resolves module references in juttle programs while creating pro
 
 ## Architecture
 
-Curious about how outrigger works? Check out the [architecture page]("docs/ARCHITECTURE.md").
+Curious about how outrigger works? Check out the [architecture page](docs/ARCHITECTURE.md).
 
 ## Testing
 
