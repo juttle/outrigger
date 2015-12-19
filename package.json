@@ -1,0 +1,88 @@
+{
+  "name": "outrigger",
+  "version": "0.1.0",
+  "description": "Juttle development environment",
+  "keywords": [
+    "juttle",
+    "outrigger"
+  ],
+  "homepage": "https://github.com/juttle/outrigger",
+  "bugs": "https://github.com/juttle/outrigger/issues",
+  "license": "Apache-2.0",
+  "bin": {
+    "outriggerd": "bin/outriggerd",
+    "outrigger-client": "bin/outrigger-client"
+  },
+  "repository": "juttle/outrigger",
+  "scripts": {
+    "shrinkwrap": "npm-shrinkwrap",
+    "clean": "rimraf dist",
+    "build-client": "webpack",
+    "prepublish": "npm run clean && npm run build-client"
+  },
+  "dependencies": {
+    "CBuffer": "^1.1.1",
+    "backbone": "^1.2.3",
+    "bluebird": "^3.0.5",
+    "body-parser": "1.7.0",
+    "bootstrap-sass": "^3.3.6",
+    "continuation-local-storage": "~3",
+    "double-ended-queue": "^0.9.7",
+    "eventemitter3": "^1.1.1",
+    "express": "^4.13.3",
+    "express-ws": "^1.0.0-rc.2",
+    "extendable-base": "^0.3.1",
+    "fast-url-parser": "^1.1.3",
+    "fs-extra": "^0.26.2",
+    "history": "^1.13.1",
+    "immutable": "^3.7.5",
+    "isomorphic-fetch": "^2.2.0",
+    "jquery": "^2.1.4",
+    "juttle-viz": "^0.1.0",
+    "log4js": "^0.6.28",
+    "minimist": "^1.2.0",
+    "open": "0.0.5",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4",
+    "redux-logger": "^2.0.4",
+    "redux-thunk": "^1.0.0",
+    "request-promise": "^1.0.2",
+    "underscore": "^1.8.3",
+    "uuid": "1.4.1",
+    "ws": "^0.4.31"
+  },
+  "devDependencies": {
+    "babel-core": "^6.3.21",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-transform-class-properties": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "chai": "^3.4.1",
+    "chakram": "^1.2.1",
+    "css-loader": "^0.23.0",
+    "extract-text-webpack-plugin": "^0.9.1",
+    "gulp": "^3.9.0",
+    "gulp-jscs": "^3.0.2",
+    "gulp-jshint": "^1.12.0",
+    "gulp-mocha": "^2.1.3",
+    "json-loader": "^0.5.4",
+    "node-libs-browser": "^0.5.3",
+    "node-sass": "^3.4.2",
+    "resolve-url-loader": "^1.4.2",
+    "rimraf": "^2.4.4",
+    "sass-loader": "^3.1.1",
+    "selenium-webdriver": "^2.48.2",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.6",
+    "webpack-dev-middleware": "^1.2.0"
+  },
+  "peerDependencies": {
+    "juttle": "^0.1.0"
+  },
+  "engines": {
+    "node": ">=4.2.0",
+    "npm": ">=2.14.7"
+  }
+}
