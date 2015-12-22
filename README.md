@@ -72,7 +72,7 @@ usage: [--outrigger-juttle <hostname:port>] [--outrigger-app <hostname:port>] [-
 
 ### Juttle config file
 
-The Juttle compiler and runtime within outriggerd are also configured via the juttle configuration file, typically at ``$(HOME)/.juttle/config.json``. For more information on the juttle configuration file, see the [juttle configuration documentation](https://github.com/juttle/juttle#configuration).
+The Juttle compiler and runtime within outriggerd are also configured via the juttle configuration file, typically at ``$(HOME)/.juttle/config.json``. For more information on the juttle configuration file, see the [juttle configuration documentation](https://github.com/juttle/juttle/blob/master/docs/reference/cli.md#configuration).
 
 ### Module resolution
 
@@ -83,7 +83,7 @@ When outriggerd resolves module references in juttle programs while creating pro
 
 ## Architecture
 
-Curious about how outrigger works? Check out the [architecture page](docs/ARCHITECTURE.md).
+Curious about how outrigger works? Check out the [architecture page](./docs/ARCHITECTURE.md).
 
 ## Testing
 
