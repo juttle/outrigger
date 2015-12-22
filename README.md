@@ -56,7 +56,7 @@ usage: [--port <port>] [--root <path>]
 ### outrigger-client
 
 ```
-usage: [--outrigger-juttle <hostname:port>] [--outrigger-app <hostname:port>] [--help] [COMMAND] [OPTIONS]
+usage: [--outriggerd <hostname:port>] [--help] [COMMAND] [OPTIONS]
    [COMMAND]: one of the following, with the following options:
          list_jobs [--job <job-id>]
          browser --path <path>
@@ -65,8 +65,7 @@ usage: [--outrigger-juttle <hostname:port>] [--outrigger-app <hostname:port>] [-
                                               Used by "browser".
        --job <job-id>:                        Job id.
                                               Used by "list_jobs".
-       --outrigger-juttle <hostname:port>:    Hostname/port of outrigger juttle server
-       --outrigger-app <hostname:port>:       Hostname/port of outrigger app server
+       --outriggerd <hostname:port>:          Hostname/port of outrigger juttle server
        --help:                                Print this help and exit
 ```
 
