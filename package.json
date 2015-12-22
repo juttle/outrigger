@@ -79,7 +79,7 @@
     "webpack-dev-middleware": "^1.2.0"
   },
   "peerDependencies": {
-    "juttle": "^0.1.0"
+    "juttle": "0.1.x"
   },
   "engines": {
     "node": ">=4.2.0",
