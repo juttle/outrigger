@@ -1,0 +1,4 @@
+read elastic -from :0: -to :now: tag='rollup_linkout' 
+| reduce sum(count) by linkout
+| sort sum -desc
+| head 10

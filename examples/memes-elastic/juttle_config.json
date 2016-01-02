@@ -1,0 +1,8 @@
+{
+    "adapters": {
+        "juttle-elastic-adapter": {
+            "address": "localhost",
+            "port": 9200
+        }
+    }
+}
