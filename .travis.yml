@@ -8,15 +8,12 @@ addons:
         - g++-4.8
 
 before_install:
-  - export CXX="g++-4.8"
+    - export CXX="g++-4.8"
+    - npm install juttle@0.2.x
 
 node_js:
     - '4.2'
     - '5.0'
-
-
-before_script:
-    - npm install juttle
 
 script:
     - gulp
