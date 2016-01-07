@@ -16,4 +16,5 @@ node_js:
     - '5.0'
 
 script:
-    - gulp
+    - gulp lint
+    - gulp test-coverage
