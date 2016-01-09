@@ -47,14 +47,18 @@ Here are the full command line options supported by the daemon and client progra
 ### outriggerd
 
 ```
-usage: [--port <port>] [--root <path>] [--c <juttle-config-path>] [-l <log4js-config-path>] [-o <log-file>] [-d] [--help]
-       --port <port>:                 Run outriggerd on specified port
-       --root <path>:                 Use <path> as the root directory for juttle programs
-       --c <juttle-config-path>:      Read juttle config from <juttle-config-path>
-       --d:                           Daemonize outriggerd and log to configured log file
-       --o <logfile>:                 Log to specififed file when daemonized
-       --l <log4js-config-path>:      Configure logging from <log4js-config-path>. Overrides any value of -o
-       --help:                        Print this help and exit
+usage: [--port <port>] [--root <path>]
+       [--config <juttle-config-path>] [--daemonize]
+       [--output <logfile>] [--log-config <log4js-config-path>]
+       [--log-level <level] [--help]
+       -p, --port <port>:                     Run outriggerd on specified port
+       -r, --root <path>:                     Use <path> as the root directory for juttle programs
+       -c, --config <juttle-config-path>:     Read juttle config from <juttle-config-path>
+       -d, --daemonize:                       Daemonize outriggerd and log to configured log file
+       -o, --output <logfile>:                Log to specififed file when daemonized
+       -L, --log-config <log4js-config-path>: Configure logging from <log4js-config-path>. Overrides any value of -o
+       -l, --log-level <level>:               Use a default log level of <level>. Overridden by any log level specified in -L
+       -h, --help:                            Print this help and exit');
 ```
 
 ``outriggerd`` uses log4js for logging and by default logs to ``log/outrigger.log``.
