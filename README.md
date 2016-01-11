@@ -21,9 +21,10 @@ Make sure you have [node](http://nodejs.org) (with [npm](http://npmjs.org)) inst
 
 Use npm to install outrigger
 ```
-$ npm install -g juttle
 $ npm install -g outrigger
 ```
+
+This will install the outrigger daemon and client binaries, the [http://github.com/juttle/juttle](juttle) interpreter, and the current set of supported juttle adapters.
 
 We've tested with nodejs 4.2.3 and npm 2.14.17. Other combinations of nodejs and npm likely work, but we haven't tested all combinations.
 
