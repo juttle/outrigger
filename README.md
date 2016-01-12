@@ -32,9 +32,9 @@ We've tested with nodejs 4.2.3 and npm 2.14.17. Other combinations of nodejs and
 
 Start the daemon by running outriggerd:
 ```
-$ outriggerd &
+$ outriggerd -d -o outriggerd.log
 ```
-You can now run juttle programs against the outriggerd daemon via the outrigger-client:
+This will daemonize outriggerd logging to outriggerd.log. You can now run juttle programs against the outriggerd daemon via the outrigger-client:
 ```
 $ outrigger-client browser --path my_juttle_file.juttle
 ```
@@ -48,8 +48,17 @@ Here are the full command line options supported by the daemon and client progra
 
 ```
 usage: [--port <port>] [--root <path>]
-       --port <port>: Run outriggerd on specified port.
-       --root <path>: Use <path> as the root directory for juttle programs.
+       [--config <juttle-config-path>] [--daemonize]
+       [--output <logfile>] [--log-config <log4js-config-path>]
+       [--log-level <level] [--help]
+       -p, --port <port>:                     Run outriggerd on specified port
+       -r, --root <path>:                     Use <path> as the root directory for juttle programs
+       -c, --config <juttle-config-path>:     Read juttle config from <juttle-config-path>
+       -d, --daemonize:                       Daemonize outriggerd and log to configured log file
+       -o, --output <logfile>:                Log to specififed file when daemonized
+       -L, --log-config <log4js-config-path>: Configure logging from <log4js-config-path>. Overrides any value of -o
+       -l, --log-level <level>:               Use a default log level of <level>. Overridden by any log level specified in -L
+       -h, --help:                            Print this help and exit');
 ```
 
 ``outriggerd`` uses log4js for logging and by default logs to ``log/outrigger.log``.

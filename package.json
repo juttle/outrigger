@@ -27,6 +27,7 @@
     "body-parser": "1.7.0",
     "bootstrap-sass": "^3.3.6",
     "continuation-local-storage": "~3",
+    "daemon": "^1.1.0",
     "double-ended-queue": "^0.9.7",
     "eventemitter3": "^1.1.1",
     "express": "^4.13.3",
