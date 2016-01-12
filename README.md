@@ -1,6 +1,6 @@
 # Outrigger
 
-[![Build Status](https://travis-ci.org/juttle/outrigger.svg)](https://travis-ci.org/juttle/outrigger)
+[![Build Status](https://travis-ci.org/juttle/outrigger.svg?branch=master)](https://travis-ci.org/juttle/outrigger)
 
 Outrigger is a [juttle](https://github.com/juttle/juttle) development environment that allows you develop, run, and view the output of Juttle programs in a browser.  You use your editor of choice to edit juttles on your
 filesystem and run them in a browser from the filesystem using Outrigger.
