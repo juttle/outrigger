@@ -54,6 +54,7 @@
     "juttle-jsdp": "^0.1.1",
     "log4js": "^0.6.28",
     "minimist": "^1.2.0",
+    "moment": "^2.11.1",
     "open": "0.0.5",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
