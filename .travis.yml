@@ -7,6 +7,9 @@ addons:
     packages:
         - g++-4.8
 
+services:
+        - docker
+
 before_install:
     - export CXX="g++-4.8"
     - npm install juttle@0.2.x
@@ -15,6 +18,10 @@ node_js:
     - '4.2'
     - '5.0'
 
+before_script:
+    - docker run -d -p 4444:4444 --name selenium-hub selenium/hub
+    - docker run -d --link selenium-hub:hub --name selenium-node-chrome selenium/node-chrome
+
 script:
     - gulp lint
-    - gulp test-coverage
+    - OUTRIGGER_HOST=172.17.42.1 SELENIUM_REMOTE_URL='http://localhost:4444/wd/hub' gulp test-coverage --app
