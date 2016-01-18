@@ -791,13 +791,19 @@ describe("Juttled Tests", function() {
                 chakram.post(jd + '/jobs', {
                     bundle: {program: 'import \"module.juttle\" as mod;' +
                              'input my_input: dropdown -label "My Input" -items [10, 20, 30];' +
-                             'emit -limit 5 | put val=my_input | batch -every :1s: | view table;' +
+                             'input my_date_input: date;' +
+                             'emit -limit 5 | put fromInput = true, val=my_input, datePlus2s = my_date_input + :2s: | batch -every :1s: | view table;' +
                              'emit -limit 5 | put val2=mod.val | batch -every :1s: | view logger',
                              modules: {
                                  'module.juttle': 'export const val=30;'
                              }
                             },
-                    inputs: {my_input: 20}
+                    inputs: JSDP.serialize({
+                        my_input: 20,
+                        my_date_input: new Date(1000)
+                    }, {
+                        toObject: true
+                    })
                 })
                 // Add a 2 second delay to force use of the job
                 // manager replay ability for new websockets.
@@ -812,7 +818,7 @@ describe("Juttled Tests", function() {
                     ws_client = new WebSocket(jd + '/jobs/' + job_id);
                     ws_client.on('message', function(data) {
                         //console.log("Got Websocket:", data);
-                        data = JSON.parse(data);
+                        data = JSDP.deserialize(data);
                         if (data.type === 'job_start') {
                             got_job_start = true;
                             expect(data.job_id === job_id);
@@ -879,8 +885,9 @@ describe("Juttled Tests", function() {
                             // val properties come from the
                             // input. val2 properties come from the
                             // module.
-                            if (_.has(data.points[0], "val")) {
+                            if (_.has(data.points[0], "fromInput")) {
                                 expect(data.points[0].val).to.equal(20);
+                                expect(data.points[0].datePlus2s.getTime()).to.equal(new Date(3000).getTime());
                             } else {
                                 expect(data.points[0].val2).to.equal(30);
                             }
@@ -894,7 +901,7 @@ describe("Juttled Tests", function() {
             it('Websocket connection to non-existent job, should get reasonable message', function(done) {
                 var ws_client = new WebSocket(jd + '/jobs/no-such-job');
                 ws_client.on('message', function(data) {
-                    data = JSON.parse(data);
+                    data = JSDP.deserialize(data);
                     expect(data).to.deep.equal({err: "No such job: no-such-job"});
                     done();
                 });
@@ -916,7 +923,7 @@ describe("Juttled Tests", function() {
                 .then(function(response) {
                     var ws_client = new WebSocket(jd + '/jobs/' + job_id);
                     ws_client.on('message', function(data) {
-                        data = JSON.parse(data);
+                        data = JSDP.deserialize(data);
                         expect(data).to.deep.equal({err: "No such job: " + job_id});
                         done();
                     });
