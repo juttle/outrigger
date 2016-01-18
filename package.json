@@ -11,7 +11,8 @@
   "license": "Apache-2.0",
   "bin": {
     "outriggerd": "bin/outriggerd",
-    "outrigger-client": "bin/outrigger-client"
+    "outrigger-client": "bin/outrigger-client",
+    "juttle": "bin/juttle"
   },
   "repository": "juttle/outrigger",
   "scripts": {
