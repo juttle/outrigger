@@ -44,7 +44,7 @@
     "juttle": "^0.2.0",
     "juttle-client-library": "^0.1.0",
     "juttle-elastic-adapter": "^0.2.0",
-    "juttle-gmail-adapter": "^0.2.0",
+    "juttle-gmail-adapter": "^0.3.0",
     "juttle-graphite-adapter": "^0.2.0",
     "juttle-influx-adapter": "^0.2.0",
     "juttle-mysql-adapter": "^0.2.0",
