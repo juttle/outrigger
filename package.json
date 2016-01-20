@@ -73,7 +73,7 @@
     "babel-plugin-transform-class-properties": "^6.3.13",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
-    "bluebird-retry": "^0.5.2",
+    "bluebird-retry": "^0.5.3",
     "chai": "^3.4.1",
     "chakram": "^1.2.1",
     "chromedriver": "^2.20.0",
