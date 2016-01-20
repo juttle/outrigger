@@ -5,6 +5,8 @@
 Outrigger is a [juttle](https://github.com/juttle/juttle) development environment that allows you develop, run, and view the output of Juttle programs in a browser.  You use your editor of choice to edit juttles on your
 filesystem and run them in a browser from the filesystem using Outrigger.
 
+![](docs/screenshots/stock_prices_example.png)
+
 Because most views in Juttle are data visualizations, they cannot
 be rendered in the Juttle CLI.  Outrigger bridges this gap
 with a javascript charting library that receives streaming data
