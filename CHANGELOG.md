@@ -2,17 +2,29 @@
 This file documents all notable changes to outrigger. The release numbering uses [semantic versioning](http://semver.org).
 
 ## Unreleased Changes
+
+## 0.4.0
+Released 2016-01-22
+
 ### Major Changes
+- NOTICE: As part of the update to juttle 0.3.0, the configuration syntax for adapters changed from the name of the module (e.g. "juttle-elastic-adapter") to the type of the adapter ("elastic").
+- Errors from juttle programs are now shown in the outrigger browser window [#29].
+- Add a "Show Juttle" link that shows the source code of the current program [#59].
 
 ### Minor Changes
-- Rearrange all example programs so they can be run from a single set of [docker-compose](https://docs.docker.com/compose/) files.
-- Embed all example juttle programs in the base outrigger docker image so they can be run without having to git clone the outrigger repository first.
+- Rearrange all example programs so they can be run from a single set of [docker-compose](https://docs.docker.com/compose/) files. [#80]
+- Embed all example juttle programs in the base outrigger docker image so they can be run without having to git clone the outrigger repository first. [#104]
 - Minor changes to Travis-CI configuration to reflect the changes in [#48].
-- Add unit tests for browser/outriggerd interactions [#12].
-- Expose the `juttle` CLI in the `bin` directory of the outrigger installation.
+- Add unit tests for browser/outriggerd interactions. [#12]
+- Expose the `juttle` CLI in the `bin` directory of the outrigger installation. [#86]
+- Add example programs for the gmail adapter. [#89]
+- Switch to using eslint for lint checking, which also includes changes to style enforcement. [#90].
+- Add example programs for influx integration using monitoring of docker containers with cAdvisor. [#23]
+- Add additional other example programs. [#110]
 
 ### Bug Fixes
 - Prevent a race condition where a short-lived program could start, run, and stop before the browser could open a websocket to receive the program's output. [#64]
+- Fix innocuous ERROR in outrigger logs related to sending commands to an already-closed subprocess. [#82]
 
 ## 0.3.0
 Released 2016-01-13
@@ -36,17 +48,11 @@ Released 2016-01-13
 ## 0.2.2
 Released 2016-01-07
 
-### Major Changes
-
-### Minor Changes
-
 ### Bug Fixes
 - Ensure that the browser websocket connection can reach an outrigger other than ``localhost``.
 
 ## 0.2.1
 Released 2016-01-07
-
-### Major Changes
 
 ### Minor Changes
 - Add demo programs that show various capabilities of juttle.
@@ -73,10 +79,6 @@ Released 2016-01-06
 ## 0.1.3
 Released 2015-12-19
 
-### Major Changes
-
-### Minor Changes
-
 ### Bug Fixes
 - Ensure that outrigger can be run when pulled from npm in addition to a source tree [#4].
 
@@ -86,7 +88,4 @@ Released 2015-12-18
 ### Major Changes
 - Initial Version.
 
-### Minor Changes
-
-### Bug Fixes
 
