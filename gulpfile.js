@@ -6,7 +6,7 @@ var mocha = require('gulp-mocha');
 
 gulp.task('lint-test', function() {
     return gulp.src([
-        'test/**/*.spec.js',
+        'test/**/*.spec.js'
     ])
 	.pipe(eslint())
 	.pipe(eslint.format())
@@ -18,6 +18,7 @@ gulp.task('lint-lib', function() {
         'bin/outrigger-client',
         'bin/outriggerd',
         'lib/**/*.js',
+        'gulpfile.js'
     ])
 	.pipe(eslint())
 	.pipe(eslint.format())
@@ -38,19 +39,6 @@ gulp.task('instrument', function () {
     }))
     .pipe(istanbul.hookRequire());
 });
-
-function gulp_test_app() {
-    return gulp.src([
-    ])
-    .pipe(mocha({
-        log: true,
-        timeout: 5000,
-        reporter: 'spec',
-        ui: 'bdd',
-        ignoreLeaks: true,
-        globals: ['should']
-    }));
-}
 
 function gulp_test() {
     var argv = require('minimist')(process.argv.slice(2));
@@ -84,17 +72,34 @@ gulp.task('test', function() {
 });
 
 gulp.task('test-coverage', ['instrument'], function() {
+    var argv = require('minimist')(process.argv.slice(2));
+    var coverage;
+
+    // different coverage numbers when running with and without app tests
+    if (argv.app) { 
+        coverage = {
+            global: {
+                statements: 84,
+                branches: 78,
+                functions: 81,
+                lines: 81
+            }
+        };
+    } else {
+        coverage = {
+            global: {
+                statements: 84,
+                branches: 77,
+                functions: 80,
+                lines: 81
+            }
+        }
+    }
+
     return gulp_test()
     .pipe(istanbul.writeReports())
     .pipe(istanbul.enforceThresholds({
-        thresholds: {
-            global: {
-                statements: 83,
-                branches: 76,
-                functions: 78,
-                lines: 80
-            }
-        }
+        thresholds: coverage
     }));
 });
 
