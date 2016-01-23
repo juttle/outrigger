@@ -10,6 +10,7 @@ Released 2016-01-22
 - NOTICE: As part of the update to juttle 0.3.0, the configuration syntax for adapters changed from the name of the module (e.g. "juttle-elastic-adapter") to the type of the adapter ("elastic").
 - Errors from juttle programs are now shown in the outrigger browser window [#29].
 - Add a "Show Juttle" link that shows the source code of the current program [#59].
+- Include [OpenTSDB](https://github.com/juttle/juttle-opentsdb-adapter) support [#116].
 
 ### Minor Changes
 - Rearrange all example programs so they can be run from a single set of [docker-compose](https://docs.docker.com/compose/) files. [#80]
