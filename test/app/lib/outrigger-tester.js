@@ -286,6 +286,28 @@ class OutriggerTester {
         });
     }
 
+    getSeriesOnViewWithTitle(title) {
+        return this.findViewByTitle(title)
+        .then((view) => {
+            return this.driver.wait(until.elementLocated(By.css('.juttle-view .jut-chart-wrapper')))
+            .then(() => {
+                return view.findElement(By.css('.juttle-view .jut-chart-wrapper'));
+            })
+            .then((chartWrapper) => {
+                return chartWrapper.findElements(By.css('g.series'));
+            })
+            .then((elements) => {
+                var self = this;
+                return Promise.each(elements, function(element) {
+                    return self.driver.wait(until.elementIsVisible(element));
+                })
+                .then(() => {
+                    return elements;
+                });
+            });
+        });
+    }
+
     getComputedStyleValue(element, styleName) {
         var script = 'return window.getComputedStyle(arguments[0])' +
                      ' .getPropertyValue(arguments[1]);';
