@@ -16,6 +16,7 @@ Examples                               | Special instructions
 [gmail](gmail/README.md) | To read from/write to gmail, you need to configure credentials in ``juttle-config.json`` file, see [README](gmail/README.md)
 [postgres-diskstats](postgres-diskstats/README.md) | Supply the yml file to ``docker-compose`` to start additional containers to read from PostgreSQL
 [cadvisor-influx](cadvisor-influx/README.md) | Supply the yml file to ``docker-compose`` to start additional containers to read from InfluxDB
+[aws](aws/README.md) | To read from AWS, you need to configure credentials in ``juttle-config.json`` file, see [README](aws/README.md)
 
 If you wish to run all available examples, this command will start all necessary docker containers:
 

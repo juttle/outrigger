@@ -1,0 +1,9 @@
+// This juttle program contains common controls used by the other AWS
+// juttle programs. It is not meant to be run by itself.
+
+import "aws_control_product.juttle" as control_product;
+
+export input aws_metric_in: dropdown
+    -label 'CloudWatch Metric'
+    -juttle "streams -space 'aws' -recent true -source_type 'metric' aws_product='${control_product.aws_product_in}' AND (metric_type='AWS CloudWatch' OR metric_type='AWS Metric') | reduce by name | sort 'name'"
+    -default '(null)';

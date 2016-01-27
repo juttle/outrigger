@@ -1,0 +1,26 @@
+// This juttle program can be used to correlate metrics for the items
+// for a given AWS product (EC2 instances, ELB load balancers, RDS
+// databases, Lambda Programs, etc.).  For example, you could see how
+// CPU Utilization relates to Network Activity for your set of EC2
+// items.
+//
+// This program assumes you are using an AWS integration and have
+// stored events/metrics in a space called "aws".
+
+import "aws_control_product.juttle" as control_product;
+import "aws_control_metric1.juttle" as control_metric1;
+import "aws_control_metric2.juttle" as control_metric2;
+
+(read -space 'aws' -last :1h: -source_type 'metric'
+ aws_product=control_product.aws_product_in AND metric_type='AWS CloudWatch' AND name=control_metric1.aws_metric1_in
+ | reduce value=avg(value) by item;
+ read -space 'aws' -last :1h: -source_type 'metric'
+ aws_product=control_product.aws_product_in AND metric_type='AWS CloudWatch' AND name=control_metric2.aws_metric2_in
+ | reduce value=avg(value) by item
+ | put control=value)
+    | join item
+    | @scatterchart -keyField "item" -valueField "value" -controlField "control"
+    -title "AWS Metrics (${control_product.aws_product_in}: ${control_metric1.aws_metric1_in} vs ${control_metric2.aws_metric2_in})"
+    -xScales.primary.label "${control_metric2.aws_metric2_in}"
+    -yScales.primary.label "${control_metric1.aws_metric1_in}"
+

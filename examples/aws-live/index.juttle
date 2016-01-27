@@ -1,0 +1,14 @@
+sub add_subdir_juttle(subdir, juttle, description) {
+    put program="[" + subdir + "](/run?path=/examples/aws/" + subdir + "/" + juttle + ".juttle)", description=description
+}
+
+emit
+|(
+    add_subdir_juttle -subdir "overview" -juttle "index" -description "Overview of AWS infrastructure"
+    add_subdir_juttle -subdir "demographic" -juttle "index" -description "Demographics of AWS infrastructure"
+    add_subdir_juttle -subdir "capacity_planning" -juttle "index" -description "Programs for capacity planning"
+    add_subdir_juttle -subdir "analysis" -juttle "index" -description "Deeper analysis of cloudWatch metrics"
+
+)
+| keep program, description
+| view table -title 'Example Juttle Programs' -markdownFields [ 'program' ]

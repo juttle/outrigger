@@ -1,0 +1,61 @@
+// This juttle program fetches the names of items with "problems" for
+// a subset of AWS products:
+//   - For EC2, the number of instances with failed status checks.
+//   - For EBS, any volumes with status != "ok".
+//   - For ELB, any load balancers where UnHealthyHostCount is > 0
+//   - Lambda: any function with errors > 0
+//
+// The set of items with problems is returned as a table along with
+// details on the problem.
+//
+// This program assumes you are using an AWS integration and have
+// stored events/metrics in a space called "aws".
+
+import "aws_control_product.juttle" as control_product;
+
+// EC2: Any instances with failed status checks.
+(read -space 'aws' -last :1h: -source_type 'metric'
+ aws_product='EC2'
+ AND aws_product=control_product.aws_product_in
+ AND (name='StatusCheckFailed_Instance' OR name='StatusCheckFailed_System')
+ | filter value=1
+ | put oldtime=time
+ | sort time by item
+ | uniq item
+ | put time=oldtime
+ | keep time, name, item;
+ // EBS: Any volumes with status != 'ok'
+ read -space 'aws' -last :1h: -source_type 'metric'
+ aws_product='EBS'
+ AND aws_product=control_product.aws_product_in
+ AND name='VolumeStatusErrors'
+ | filter value=1 AND status!='ok'
+ | put oldtime=time
+ | sort time by item
+ | uniq item
+ | put time=oldtime
+ | keep time, name, item, status;
+ // ELB: Any load balancers where UnHealthyHostCount is > 0
+ read -space 'aws' -last :1h: -source_type 'metric'
+ aws_product='ELB'
+ AND aws_product=control_product.aws_product_in
+ AND name='UnHealthyHostCount'
+ | filter value>0
+ | put oldtime=time
+ | sort time by item
+ | uniq item
+ | put time=oldtime
+ | keep time, name, item, value;
+ // Lambda: any function with errors > 0
+ read -space 'aws' -last :1h: -source_type 'metric'
+ aws_product='Lambda'
+ AND control_product.aws_product_in
+ AND name='Errors'
+ | filter value>0
+ | put oldtime=time
+ | sort time by item
+ | uniq item
+ | put time=oldtime
+ | keep time, name, item, value;
+)
+    | @table -title "AWS List of Problem Items (${control_product.aws_product_in})"

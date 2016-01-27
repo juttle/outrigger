@@ -1,0 +1,34 @@
+// This program can be used to graph the value of a given metric (EC2
+// cpu utilization, EBS I/O activity) for all items for a given AWS product.
+//
+// You can optionally add events for the given AWS product that
+// indicate when items were added, removed, or changed.
+//
+// This program assumes you are using an AWS integration and have
+// stored events/metrics in a space called "aws".
+
+import "aws_control_product.juttle" as control_product;
+import "aws_control_metric.juttle" as control_metric;
+import "aws_control_events.juttle" as control_events;
+
+read -space 'aws' -last :6h: -source_type 'metric'
+aws_product=control_product.aws_product_in
+AND (metric_type='AWS CloudWatch' OR metric_type='AWS Metric')
+AND name=control_metric.aws_metric_in
+    | @timechart -keyField "item"
+    -valueField "value"
+    -title "AWS CloudWatch Metrics (${control_metric.aws_metric_in})"
+    -yScales.primary.label "Value"
+    -display.markerSize 2
+    -id 'cw_timechart';
+
+read -space 'aws' -last :6h: -source_type 'event'
+aws_product=control_product.aws_product_in
+AND event_type =~ control_events.aws_show_events_in
+    | put icon='fa-cloud'
+    | @events -on 'cw_timechart'
+    -nameField "event_type"
+    -messageField "item"
+    -display.typeField "icon";
+
+

@@ -1,0 +1,34 @@
+// This program can be used to show the breakdown of AWS items (EC2
+// instances, EBS volumes, etc) by any demographic metric supported by
+// the AWS integration.
+//
+// Input controls allow you to choose an AWS product and demographic
+// metric and displays a timechart showing the number of items in each
+// demographic category over time.
+//
+// This program assumes you are using an AWS integration and have
+// stored events/metrics in a space called "aws".
+
+import "aws_control_product.juttle" as control_product;
+import "aws_control_demographic.juttle" as control_demo;
+import "aws_control_events.juttle" as control_events;
+
+read -space 'aws' -last :6h: -source_type 'metric'
+aws_product=control_product.aws_product_in
+AND metric_type='AWS Demographic'
+AND demographic=control_demo.aws_demo_in
+    | @timechart -keyField "name"
+    -valueField "value"
+    -title "AWS Demographics (${control_demo.aws_demo_in})"
+    -yScales.primary.label "Count"
+    -display.markerSize 2
+    -id 'demo_timechart';
+
+read -space 'aws' -last :6h: -source_type 'event'
+aws_product=control_product.aws_product_in
+AND event_type =~ control_events.aws_show_events_in
+    | put icon='fa-cloud'
+    | @events -on 'demo_timechart'
+    -nameField "event_type"
+    -messageField "item"
+    -display.typeField "icon"

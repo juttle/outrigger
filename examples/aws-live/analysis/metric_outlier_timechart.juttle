@@ -1,0 +1,50 @@
+// This program can be used to identify outliers amongst a set of
+// items for a given AWS product (EC2 instances, ELB load balancers,
+// RDS databases, Lambda Programs, etc.). For example, you may want to
+// identify EC2 instances with a higher CPU Utilization than most
+// other instances.
+//
+// The program graphs the difference between actual value of a given
+// metric and the median value of that metric for the entire group of
+// items. For example, for product EC2 and metric CPUUtilization, it
+// computes the median CPU Utilization over 5 minute windows and then
+// graphs the difference between an item's actual CPU Utilization and
+// the median.
+//
+// This approach eliminates groupwide shifts in the metric's value
+// over time. Outliers tend to have values much higher or lower than
+// the median value.
+//
+// You can optionally add events for the given AWS product that
+// indicate when items were added, removed, or changed.
+//
+// This program assumes you are using an AWS integration and have
+// stored events/metrics in a space called "aws".
+
+import "aws_control_product.juttle" as control_product;
+import "aws_control_metric.juttle" as control_metric;
+import "aws_control_events.juttle" as control_events;
+
+read -space 'aws' -last :6h: -source_type 'metric'
+aws_product=control_product.aws_product_in
+AND (metric_type='AWS CloudWatch' OR metric_type='AWS Metric')
+AND name=control_metric.aws_metric_in
+    | batch -every :5m:
+    | (put oldtime=time; reduce median=percentile(value, 0.5), time=first(time))
+    | join
+    | put time=oldtime, demedian=value-median
+    | @timechart -keyField "item"
+    -valueField "demedian"
+    -title "AWS Metrics (${control_metric.aws_metric_in}, Highlighting Outliers)"
+    -yScales.primary.label "Value"
+    -display.markerSize 2
+    -id 'cw_timechart';
+
+read -space 'aws' -last :6h: -source_type 'event'
+aws_product=control_product.aws_product_in
+AND event_type =~ control_events.aws_show_events_in
+    | put icon='fa-cloud'
+    | @events -on 'cw_timechart'
+    -nameField "event_type"
+    -messageField "item"
+    -display.typeField "icon";
