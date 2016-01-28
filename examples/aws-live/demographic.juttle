@@ -52,7 +52,7 @@ import "examples/aws-live/common/aws_control_events.juttle" as control_events;
 //import "examples/aws-live/common/aws_control_metric.juttle" as control_metric;
 
 read aws product=control_product.aws_product_in
-    | ( filter metric_type='AWS Aggregate' AND aggregate=control_agg.aws_agg_in | view table;
+    | ( filter metric_type='AWS Aggregate' AND aggregate=control_agg.aws_agg_in | view table
         // | view timechart -keyField "aggregate"
         //                  -valueField "value"
         //                  -title "AWS Totals (${control_agg.aws_agg_in})"

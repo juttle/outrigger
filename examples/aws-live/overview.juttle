@@ -1,12 +1,14 @@
 import "examples/aws-live/common/aws_control_product.juttle" as control_product;
 
-read aws product='EC2' OR product='EBS' OR product='RDS' OR product='Lambda'
+read aws product='EC2' OR product='EBS' OR product='RDS'
     | (filter aws_product='EC2' AND metric_type='AWS Aggregate' AND aggregate='EC2 Instance Count'
        | view tile -title "Number of EC2 Instances";
        filter aws_product='RDS' AND metric_type='AWS Aggregate' AND aggregate='RDS DB Total Allocated Storage'
        | view tile -title "Total DB Allocated Storage (GB)";
        filter aws_product='EBS' AND metric_type='AWS Aggregate' AND aggregate='EBS Volume Total Iops'
        | view tile -title "Total EBS Volume Capacity (Iops)";
+
+
        // EC2: Any instances with failed status checks.
        (filter aws_product='EC2' AND aws_product=control_product.aws_product_in AND (name='StatusCheckFailed_Instance' OR name='StatusCheckFailed_System')
         | filter value=1
@@ -47,3 +49,4 @@ read aws product='EC2' OR product='EBS' OR product='RDS' OR product='Lambda'
           view table -title "AWS List of Problem Items (${control_product.aws_product_in})"
          )
        );
+

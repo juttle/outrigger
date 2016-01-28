@@ -3,12 +3,22 @@
 
 import "examples/aws-live/common/aws_control_product.juttle" as control_product;
 
+const all_aggregates = [
+    {label: 'EC2 Instance Count', value: 'EC2 Instance Count', product: 'EC2'},
+    {label: 'EBS Volume Count', value: 'EBS Volume Count', product: 'EBS'},
+    {label: 'EBS Volume Total Size', value: 'EBS Volume Total Size', product: 'EBS'},
+    {label: 'EBS Volume Total iops', value: 'EBS Volume Total iops', product: 'EBS'}
+];
+
 export input aws_agg_in: select
     -label 'Aggregate'
-//    -juttle "import examples/aws-live/common/aws_aggregates.juttle as agg; aws_aggregates('EC2')"
+//    -juttle 'emit -points all_aggregates | filter product=control_product.aws_product_in'
+//    -juttle 'emit -from :0: -points all_aggregates | keep label, value'
     -items [{label: 'EC2 Instance Count', value: 'EC2 Instance Count'}]
 //    -default '(null)';
     -default 'EC2 Instance Count';
+
+//emit -from :0: -points all_aggregates | filter product='EC2' | keep label, value;
 
 
 
