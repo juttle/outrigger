@@ -1,0 +1,93 @@
+// This program can be used to show the value of any aggregate metric
+// (EC2 instances, EBS volumes, total RDS storage capacity, etc.) by
+// any aggregate metric supported by the AWS integration.
+//
+// Input controls allow you to choose an AWS product and aggregate
+// metric and displays a timechart showing the value of that
+// aggregate over time.
+//
+// This program assumes you are using an AWS integration and have
+// stored events/metrics in a space called "aws".
+
+// This program can be used to show the breakdown of AWS items (EC2
+// instances, EBS volumes, etc) by any demographic metric supported by
+// the AWS integration.
+//
+// Input controls allow you to choose an AWS product and demographic
+// metric and displays a piechart showing the number of items in each
+// demographic category.
+//
+// This program assumes you are using an AWS integration and have
+// stored events/metrics in a space called "aws".
+
+// This program can be used to show the breakdown of AWS items (EC2
+// instances, EBS volumes, etc) by any demographic metric supported by
+// the AWS integration.
+//
+// Input controls allow you to choose an AWS product and demographic
+// metric and displays a timechart showing the number of items in each
+// demographic category over time.
+//
+// This program assumes you are using an AWS integration and have
+// stored events/metrics in a space called "aws".
+
+// This program can be used to show the top 10 items (EC2 instances,
+// EBS volumes, etc) by any demographic metric supported by the AWS
+// integration.
+//
+// This is useful if you want to find the EC2 intances using the most
+// CPU, the EBS volumes with the most I/O activity, etc.
+//
+// Input controls allow you to choose an AWS product and demographic
+// metric and displays a barchart of the top 10 items by that metric.
+//
+// This program assumes you are using an AWS integration and have
+// stored events/metrics in a space called "aws".
+
+
+import "examples/aws-live/common/aws_control_product.juttle" as control_product;
+import "examples/aws-live/common/aws_control_aggregate.juttle" as control_agg;
+import "examples/aws-live/common/aws_control_events.juttle" as control_events;
+//import "examples/aws-live/common/aws_control_demographic.juttle" as control_demo;
+//import "examples/aws-live/common/aws_control_metric.juttle" as control_metric;
+
+read aws product=control_product.aws_product_in
+    | ( filter metric_type='AWS Aggregate' AND aggregate=control_agg.aws_agg_in | view table;
+        // | view timechart -keyField "aggregate"
+        //                  -valueField "value"
+        //                  -title "AWS Totals (${control_agg.aws_agg_in})"
+        //                  -yScales.primary.label "Total"
+        //                  -display.markerSize 2
+        //                  -id 'agg_timechart';
+        // filter event_type =~ control_events.aws_show_events_in
+        // | put icon='fa-cloud'
+        // | view events -on 'agg_timechart'
+        //               -nameField "event_type"
+        //               -messageField "item"
+        //               -display.typeField "icon";
+       // filter metric_type='AWS Demographic' AND demographic=control_demo.aws_demo_in
+       // | tail by name
+       // | view piechart -categoryField "name"
+       //                 -valueField "value"
+       //                 -title "AWS Demographics (${control_demo.aws_demo_in})";
+       // filter metric_type='AWS Demographic' AND demographic=control_demo.aws_demo_in
+       // | view timechart -keyField "name"
+       //                  -valueField "value"
+       //                  -title "AWS Demographics (${control_demo.aws_demo_in})"
+       //                  -yScales.primary.label "Count"
+       //                  -display.markerSize 2
+       //                  -id 'demo_timechart';
+       // filter event_type =~ control_events.aws_show_events_in
+       // | put icon='fa-cloud'
+       // | view events -on 'demo_timechart'
+       //               -nameField "event_type"
+       //               -messageField "item"
+       //               -display.typeField "icon";
+       // filter (metric_type='AWS CloudWatch' OR metric_type='AWS Metric') AND name=control_metric.aws_metric_in
+       // | sort value -desc
+       // | uniq item by item
+       // | head -10
+       // | view barchart -categoryField "item"
+       //                 -yScales.primary.label "${control_metric.aws_metric_in}"
+       //                 -title 'AWS Top ${control_product.aws_product_in} Items by ${control_metric.aws_metric_in}'
+      );

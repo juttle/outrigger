@@ -1,12 +1,14 @@
 // This juttle program contains common controls used by the other AWS
 // juttle programs. It is not meant to be run by itself.
 
-import "aws_control_product.juttle" as control_product;
+import "examples/aws-live/common/aws_control_product.juttle" as control_product;
 
-export input aws_agg_in: dropdown
+export input aws_agg_in: select
     -label 'Aggregate'
-    -juttle "streams -space 'aws' -recent true -source_type 'metric' aws_product='${control_product.aws_product_in}' and metric_type='AWS Aggregate' | reduce by aggregate | sort 'aggregate'"
-    -default '(null)';
+//    -juttle "import examples/aws-live/common/aws_aggregates.juttle as agg; aws_aggregates('EC2')"
+    -items [{label: 'EC2 Instance Count', value: 'EC2 Instance Count'}]
+//    -default '(null)';
+    -default 'EC2 Instance Count';
 
 
 

@@ -40,7 +40,10 @@ read aws product='EC2' OR product='EBS' OR product='RDS' OR product='Lambda'
         | put time=oldtime
         | keep time, name, aws_product, item, value;
        )
-       | reduce cnt=count()
-       | put level=(cnt == 0 ? 'success' : 'error')
-       | view tile -title "AWS Number of Problems (${control_product.aws_product_in})" -display.levelField "level";
-      );
+       | (
+          reduce cnt=count()
+           | put level=(cnt == 0 ? 'success' : 'error')
+           | view tile -title "AWS Number of Problems (${control_product.aws_product_in})" -display.levelField "level";
+          view table -title "AWS List of Problem Items (${control_product.aws_product_in})"
+         )
+       );

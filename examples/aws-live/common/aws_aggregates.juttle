@@ -1,0 +1,3 @@
+function aws_aggregates(aws_product) {
+    return [{value: 'EC2 Instance Count', label: 'EC2 Instance Count'}];
+}
