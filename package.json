@@ -80,6 +80,7 @@
     "chakram": "^1.2.1",
     "chromedriver": "^2.20.0",
     "css-loader": "^0.23.0",
+    "eslint-plugin-react": "^3.16.1",
     "extract-text-webpack-plugin": "^0.9.1",
     "gulp": "^3.9.0",
     "gulp-eslint": "^1.1.1",
