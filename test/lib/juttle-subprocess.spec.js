@@ -98,7 +98,7 @@ describe('juttle-subprocess', function() {
         return waitForMessage({ type: 'compile_error' })
         .then(function() {
             var message = findMessage({ type: 'compile_error' });
-            expect(message.err.message).to.contain('Error: adapter waffles not registered');
+            expect(message.err.message).to.contain('adapter waffles not registered');
         });
     });
 
@@ -159,7 +159,7 @@ describe('juttle-subprocess', function() {
         process.emit('message', {
             cmd: 'run',
             bundle: {
-                program: 'emit -limit 2'
+                program: 'emit -limit 2 -every :2s:'
             }
         });
 
