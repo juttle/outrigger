@@ -6,7 +6,7 @@
        filter product='EBS' AND metric_type='AWS Aggregate' AND aggregate='EBS Volume Total Iops'
        | view tile -title "Total EBS Volume Capacity (Iops)";
       );
- read cloudwatch -from :1 hour ago: -to :now: product='EC2' OR product='ELB' OR product='Lambda'
+ read cloudwatch -from :1 hour ago: -to :now: -period 3600 -statistics ['Maximum'] product='EC2' OR product='ELB' OR product='Lambda'
   | (filter
      // EC2: Any instances with failed status checks.
      (product='EC2' AND (name='StatusCheckFailed_Instance' OR name='StatusCheckFailed_System') AND value=1) OR
@@ -19,7 +19,7 @@
   | uniq item
   | put time=oldtime
   | keep time, product, name, value, item
-  | ( put cnt=count()
+  | ( reduce cnt=count()
       | put level=(cnt == 0 ? 'success' : 'error')
       | view tile -valueField "cnt" -title "Number of Problem Items (EC2, ELB, Lambda)" -levelField "level";
       view table -title "Items with problems" -columnOrder ["time", "product", "item", "name", "value"]
