@@ -327,7 +327,7 @@ describe('Juttled Tests', function() {
                                 },
                                 'module': 'no-such-juttle.juttle'
                             },
-                            'message': 'Error: could not find module "no-such-juttle.juttle"'
+                            'message': 'could not find module "no-such-juttle.juttle"'
                         }
                     }
                 });
@@ -731,7 +731,7 @@ describe('Juttled Tests', function() {
                                 },
                                 module: 'no-such-module.juttle'
                             },
-                            message: 'Error: could not find module "no-such-module.juttle"'
+                            message: 'could not find module "no-such-module.juttle"'
                         }
                     }
                 });
@@ -773,7 +773,7 @@ describe('Juttled Tests', function() {
                     errors: [],
                     warnings: [],
                     output: {
-                        sink0: {
+                        view0: {
                             data: [{type: 'point', point: {foo: 'bar', 'time:date': '1970-01-01T00:00:00.000Z'}}],
                             options: {
                                 _jut_time_bounds: []
@@ -835,7 +835,7 @@ describe('Juttled Tests', function() {
                     errors: [],
                     warnings: [],
                     output: {
-                        sink0: {
+                        view0: {
                             data: [{type: 'mark', 'time:date': '1970-01-01T00:00:00.000Z'},
                                    {type: 'point', point: {'time:date': '1970-01-01T00:00:00.000Z'}},
                                    {type: 'point', point: {'time:date': '1970-01-01T00:00:01.000Z'}},
@@ -848,7 +848,7 @@ describe('Juttled Tests', function() {
                             },
                             type: 'text'
                         },
-                        sink1: {
+                        view1: {
                             data: [{type: 'mark', 'time:date': '1970-01-01T00:00:00.000Z'},
                                    {type: 'point', point: {'time:date': '1970-01-01T00:00:00.000Z'}},
                                    {type: 'point', point: {'time:date': '1970-01-01T00:00:01.000Z'}},
@@ -874,7 +874,7 @@ describe('Juttled Tests', function() {
                     errors: [],
                     warnings: [],
                     output: {
-                        sink0: {
+                        view0: {
                             data: [{type: 'point', point: {foo: 'bar', 'time:date': '1970-01-01T00:00:00.000Z'}}],
                             options: {
                                 _jut_time_bounds: []
@@ -902,7 +902,7 @@ describe('Juttled Tests', function() {
                     errors: [],
                     warnings: [],
                     output: {
-                        sink0: {
+                        view0: {
                             data: [{type: 'point', point: {foo: 'baz', 'time:date': '1970-01-01T00:00:00.000Z'}}],
                             options: {
                                 _jut_time_bounds: []
@@ -928,13 +928,13 @@ describe('Juttled Tests', function() {
                                 filename: 'main',
                                 start: {column: 1, line: 1, offset: 0}
                             },
-                            procName: 'read-file'
+                            procName: 'read'
                         },
-                        message: 'Error: internal error Error: ENOENT: no such file or directory, open \'nobody\''
+                        message: 'internal error Error: ENOENT: no such file or directory, open \'nobody\''
                     }],
                     warnings: [],
                     output: {
-                        sink0: {
+                        view0: {
                             data: [],
                             options: {
                                 _jut_time_bounds: [{from: null, last: null, to: null}]
@@ -964,10 +964,10 @@ describe('Juttled Tests', function() {
                             },
                             procName: 'sort'
                         },
-                        message: 'Warning: field "nobody" does not exist'
+                        message: 'field "nobody" does not exist'
                     }],
                     output: {
-                        sink0: {
+                        view0: {
                             data: [{type: 'point', point: {}}],
                             options: {
                                 _jut_time_bounds: []
@@ -1126,8 +1126,8 @@ describe('Juttled Tests', function() {
                 bundle: {program: 'import \"module.juttle\" as mod;' +
                          'input my_input: dropdown -label "My Input" -items [10, 20, 30];' +
                          'input my_date_input: date;' +
-                         'emit -limit 5 | put fromInput = true, val=my_input, datePlus2s = my_date_input + :2s: | batch -every :1s: | view table;' +
-                         'emit -limit 5 | put val2=mod.val | batch -every :1s: | view logger',
+                         'emit -limit 2 -every :2s: | put fromInput = true, val=my_input, datePlus2s = my_date_input + :2s: | batch -every :2s: | view table;' +
+                         'emit -limit 2 -every :2s: | put val2=mod.val | batch -every :2s: | view logger',
                          modules: {
                              'module.juttle': 'export const val=30;'
                          }
@@ -1156,8 +1156,8 @@ describe('Juttled Tests', function() {
                         if (data.type === 'job_start') {
                             got_job_start = true;
                             expect(data.job_id === job_id);
-                            expect(data.sinks[0].sink_id).to.match(/sink\d+/);
-                            expect(data.sinks[1].sink_id).to.match(/sink\d+/);
+                            expect(data.sinks[0].sink_id).to.match(/view\d+/);
+                            expect(data.sinks[1].sink_id).to.match(/view\d+/);
 
                             // Change the sink ids to just "sink" to
                             // allow for an exact match of the full
@@ -1186,33 +1186,28 @@ describe('Juttled Tests', function() {
 
                             // Now check that we received all the ticks/marks/etc we expected.
                             expect(got_job_start).to.be.true;
-                            expect(num_points).to.equal(10);
+                            expect(num_points).to.equal(4);
 
-                            // We allow fewer ticks because ticks
-                            // occur every second on the second while
-                            // the points are emitted from :now:,
-                            // which may not land exactly on a given
-                            // second.
-                            expect(num_ticks).to.be.within(8,10);
+                            expect(num_ticks).to.equal(2);
 
-                            expect(num_marks).to.be.equal(12);
+                            expect(num_marks).to.be.equal(6);
                             expect(num_sink_ends).to.equal(2);
                             done();
                         } else if (data.type === 'tick') {
                             num_ticks++;
-                            expect(data.sink_id).to.match(/sink\d+/);
+                            expect(data.sink_id).to.match(/view\d+/);
                             expect(data.job_id).to.equal(job_id);
                         } else if (data.type === 'mark') {
                             num_marks++;
-                            expect(data.sink_id).to.match(/sink\d+/);
+                            expect(data.sink_id).to.match(/view\d+/);
                             expect(data.job_id).to.equal(job_id);
                         } else if (data.type === 'sink_end') {
                             num_sink_ends++;
-                            expect(data.sink_id).to.match(/sink\d+/);
+                            expect(data.sink_id).to.match(/view\d+/);
                             expect(data.job_id).to.equal(job_id);
                         } else if (data.type === 'points') {
                             num_points++;
-                            expect(data.sink_id).to.match(/sink\d+/);
+                            expect(data.sink_id).to.match(/view\d+/);
                             expect(data.job_id).to.equal(job_id);
                             expect(data.points).to.have.length(1);
 
@@ -1691,7 +1686,7 @@ describe('Juttled Tests', function() {
                     info: {
                         bundle: bundle,
                         err: {
-                            message: 'Error: Cannot run a program without a flowgraph.',
+                            message: 'Cannot run a program without a flowgraph.',
                             code: 'RT-PROGRAM-WITHOUT-FLOWGRAPH',
                             info: {
                                 location: {
