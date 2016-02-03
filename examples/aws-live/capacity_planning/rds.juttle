@@ -25,39 +25,36 @@
 // This program assumes you are using an AWS integration and have
 // stored events/metrics in a space called "aws".
 
-(read -space 'aws' -last :1h: -source_type 'metric'
- aws_product='RDS'
- AND (metric_type='AWS CloudWatch' OR metric_type='AWS Metric')
- AND (name='ReadIOPS' OR name='WriteIOPS')
+import "examples/aws-live/common/capacity_planning_cpu.juttle" as capacity_cpu;
+
+(read cloudwatch -period :6h: -last :6h: product='RDS'
+ | filter (name='ReadIOPS' OR name='WriteIOPS')
  | reduce avg_iops=avg(value) by item, name
  | reduce Iops_Used=sum(avg_iops)
  | keep Iops_Used;
- read -space 'aws' -last :1h: -source_type 'metric'
- aws_product='RDS'
- AND metric_type='AWS Aggregate'
- AND aggregate='RDS DB Total Iops'
+ read aws -from :now: -to :now: product='RDS'
+ | filter aggregate='RDS DB Total Iops'
  | reduce Iops_Total=last(value)
 )
-    | join
-    | put Iops_Headroom=Iops_Total-Iops_Used
-    | keep Iops_Used, Iops_Headroom
-    | split
-    | @piechart -title "AWS Capacity Planning (Iops) for RDS";
+ | join
+ | put Iops_Headroom=Iops_Total-Iops_Used
+ | keep Iops_Used, Iops_Headroom
+ | split
+ | view piechart -title "AWS Capacity Planning (Iops) for RDS";
 
-(read -space 'aws' -last :1h: -source_type 'metric'
- aws_product='RDS'
- AND (metric_type='AWS CloudWatch' OR metric_type='AWS Metric')
- AND name='FreeStorageSpace'
+(read cloudwatch -period :6h: -last :6h: product='RDS'
+ | filter name='FreeStorageSpace'
  | reduce avg_freespace=avg(value)/(1024*1024*1024) by item
  | reduce Storage_Headroom=sum(avg_freespace);
- read -space 'aws' -last :1h: -source_type 'metric'
- aws_product='RDS'
- AND metric_type='AWS Aggregate'
- AND aggregate='RDS DB Total Allocated Storage'
+ read aws -from :now: -to :now: product='RDS'
+ | filter aggregate='RDS DB Total Allocated Storage'
  | reduce Storage_Allocated=last(value)
 )
-    | join
-    | put Storage_Used=Storage_Allocated-Storage_Headroom
-    | keep Storage_Used, Storage_Headroom
-    | split
-    | @piechart -title "AWS Capacity Planning (Storage) for RDS";
+ | join
+ | put Storage_Used=Storage_Allocated-Storage_Headroom
+ | keep Storage_Used, Storage_Headroom
+ | split
+ | view piechart -title "AWS Capacity Planning (Storage) for RDS";
+
+capacity_cpu.cpu_piechart -cw_product 'RDS';
+
