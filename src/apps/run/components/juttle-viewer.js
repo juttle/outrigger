@@ -15,10 +15,14 @@ class JuttleViewer extends Component {
     }
 
     render() {
-        let juttleSource = false;
+        if (!this.props.bundle) {
+            return false;
+        }
+
+        let bundle = false;
 
         if (this.state.sourceVisible) {
-            juttleSource = (<pre className='juttle-source'>{this.props.juttleSource}</pre>);
+            bundle = (<pre className='juttle-source'>{this.props.bundle.program}</pre>);
         }
 
         return (
@@ -26,10 +30,14 @@ class JuttleViewer extends Component {
                 <a className='juttle-source-toggle' onClick={this._onToggleVisiblityClick.bind(this)}>
                     {this.state.sourceVisible ? 'Hide Juttle' : 'Show Juttle'}
                 </a>
-                {juttleSource}
+                {bundle}
             </div>
         )
     }
 }
+
+JuttleViewer.PropTypes = {
+    bundle: React.PropTypes.object
+};
 
 export default JuttleViewer;
