@@ -1149,6 +1149,7 @@ describe('Juttled Tests', function() {
                     var num_ticks = 0;
                     var num_marks = 0;
                     var num_sink_ends = 0;
+                    var got_job_end_time = undefined;
                     ws_client = new WebSocket(juttleBaseUrl + '/jobs/' + job_id);
                     ws_client.on('message', function(data) {
                         //console.log("Got Websocket:", data);
@@ -1182,6 +1183,7 @@ describe('Juttled Tests', function() {
                                 }
                             ]);
                         } else if (data.type === 'job_end') {
+                            got_job_end_time = Date.now();
                             expect(data.job_id === job_id);
 
                             // Now check that we received all the ticks/marks/etc we expected.
@@ -1192,7 +1194,6 @@ describe('Juttled Tests', function() {
 
                             expect(num_marks).to.be.equal(6);
                             expect(num_sink_ends).to.equal(2);
-                            done();
                         } else if (data.type === 'tick') {
                             num_ticks++;
                             expect(data.sink_id).to.match(/view\d+/);
@@ -1221,6 +1222,19 @@ describe('Juttled Tests', function() {
                                 expect(data.points[0].val2).to.equal(30);
                             }
                         }
+                    });
+
+                    ws_client.on('close', function(data) {
+
+                        // There should be at least 1 second between
+                        // the job_end message and the websocket
+                        // closing. This shows that
+                        // delayed_websocket_close is actually
+                        // working.
+
+                        var got_ws_close_time = Date.now();
+                        expect(got_ws_close_time-got_job_end_time).to.be.at.least(1000);
+                        done();
                     });
                 });
         };
