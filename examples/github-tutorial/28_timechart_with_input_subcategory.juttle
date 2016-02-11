@@ -1,0 +1,8 @@
+input subcat: text
+  -label 'Sub-Category'
+  -default 'Microservice Platform';
+
+read file -file '/tmp/data.json'
+| filter sub_category = subcat
+| reduce -from :2015-01-01: -over :w: -every :d: count() by 'repo_name'
+| view timechart -keyField 'repo_name'
