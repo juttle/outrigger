@@ -1,6 +1,6 @@
 {
   "name": "outrigger",
-  "version": "0.5.0-rc.1",
+  "version": "0.5.0",
   "description": "Juttle development environment",
   "keywords": [
     "juttle",
@@ -15,12 +15,9 @@
     "juttle": "bin/juttle"
   },
   "repository": "juttle/outrigger",
-  "scripts": {
-  },
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
   "engines": {
     "node": ">=4.2.0",
     "npm": ">=2.14.7"
