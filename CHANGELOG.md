@@ -2,7 +2,7 @@
 This file documents all notable changes to outrigger. The release numbering uses [semantic versioning](http://semver.org).
 
 ## 0.5.0
-Unreleased
+Released 2016-02-10
 
 ### Major Changes
 
