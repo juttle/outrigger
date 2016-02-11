@@ -1,4 +1,0 @@
-//
-// Hello world in juttle
-//
-emit -limit 1 | put message = 'hello world' | view table

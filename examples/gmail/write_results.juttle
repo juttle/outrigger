@@ -1,4 +1,0 @@
-emit -limit 10
-    | (write gmail -subject "Example outrigger + gmail + write output";
-       view table);
-

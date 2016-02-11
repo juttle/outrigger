@@ -1,3 +1,0 @@
-import 'no-such-juttle.juttle' as nope;
-
-emit -limit 10 | put x=nope.a | view timechart;

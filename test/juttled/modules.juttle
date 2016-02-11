@@ -1,3 +1,0 @@
-import 'test-module.juttle' as m1;
-
-emit -from :0: -limit 1 | put foo=m1.foo | view text;

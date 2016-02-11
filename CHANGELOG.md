@@ -1,7 +1,12 @@
 # Change Log
 This file documents all notable changes to outrigger. The release numbering uses [semantic versioning](http://semver.org).
 
-## Unreleased Changes
+## 0.5.0
+Unreleased
+
+### Major Changes
+
+- Deprecated the project. The functionality has been migrated to [juttle-engine](https://github.com/juttle/juttle-engine).
 
 ## 0.4.0
 Released 2016-01-22
@@ -88,5 +93,3 @@ Released 2015-12-18
 
 ### Major Changes
 - Initial Version.
-
-
