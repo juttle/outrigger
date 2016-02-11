@@ -9,11 +9,6 @@
   "homepage": "https://github.com/juttle/outrigger",
   "bugs": "https://github.com/juttle/outrigger/issues",
   "license": "Apache-2.0",
-  "bin": {
-    "outriggerd": "bin/outriggerd",
-    "outrigger-client": "bin/outrigger-client",
-    "juttle": "bin/juttle"
-  },
   "repository": "juttle/outrigger",
   "scripts": {},
   "dependencies": {},
